@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This web.xml file is not required when using Servlet 3.0 container, 
+	see implementation details http://jersey.java.net/nonav/documentation/latest/jax-rs.html -->
+<web-app version="2.5" xmlns="http://JAVA.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+	<display-name>User Management Web Service</display-name>
+
+	<servlet>
+		<servlet-name>Jersey Web Application</servlet-name>
+		<servlet-class>org.glassfish.jersey.servlet.ServletContainer
+		</servlet-class>
+		<!-- A RESTful web application can be configured in different ways One 
+			way is to put every configuration here in web.xml Other way is to put every 
+			configuration in Application class Final way is to make use of both web.xml 
+			and Application class Here we are using the third method of making use of 
+			both the things, so created a init-param stating the qualified path our application 
+			class These param names can be looked up easily in the internet eg : jersey.config.server.provider.packages 
+			for giving qualified package path -->
+<!-- 		<init-param>
+			<param-name>jersey.config.server.provider.packages</param-name>
+			<param-value>com.sai.rest</param-value>
+		</init-param> -->
+		<init-param>
+			<param-name>jakarta.ws.rs.Application</param-name>
+			<param-value>com.sai.rest.application.UserManagement</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<async-supported>true</async-supported>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Jersey Web Application</servlet-name>
+		<url-pattern>/*</url-pattern>
+	</servlet-mapping>
+
+	<!-- By default EventListener interface will be the Listener for any servlet, 
+		but with default methods with no logic, we need to override to implement 
+		our logic -->
+	<listener>
+		<listener-class>com.sai.rest.listener.UserManagementListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>UserManagementFilter</filter-name>
+		<filter-class>com.sai.rest.filter.UserManagementFilter</filter-class>
+		<async-supported>true</async-supported>
+	</filter>
+	<filter-mapping>
+		<filter-name>UserManagementFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<context-param>
+		<param-name>clientKeysFile</param-name>
+		<param-value>/WEB-INF/classes/client-api-keys.txt</param-value>
+	</context-param>
+	<context-param>
+		<param-name>usersFile</param-name>
+		<param-value>/WEB-INF/classes/users-file.json</param-value>
+	</context-param>
+</web-app>
