@@ -9,7 +9,7 @@ import jakarta.servlet.ServletContextListener;
 //ServletContextListener is an interface which extends EventListener
 public class UserManagementListener implements ServletContextListener
 {
-	//ServletContextListener will have 2 default methods in it, contextInitialized and contextInitialized which were called
+	//ServletContextListener will have 2 default methods in it, contextInitialized and contextDestroyed which were called
 	//On startup of ServletContext
 	//Just before shutdown of ServletContext
 	
